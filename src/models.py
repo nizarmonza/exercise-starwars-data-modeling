@@ -12,9 +12,10 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'user'
+    favorites = relationship('Favorites')
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     first_name = Column(String(250), nullable=False)
     last_name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
@@ -23,16 +24,16 @@ class Favorites(Base):
     __tablename__ = 'favorites'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('User.id'))
-    planets = Column(String, ForeignKey('Planets.id'))
-    characters = Column(String, ForeignKey('Characters.id'))
+    id = Column(Integer, primary_key=True, unique=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    planets = Column(Integer, ForeignKey('planets.id'), primary_key=True)
+    characters = Column(Integer, ForeignKey('characters.id'), primary_key=True)
     
 class Planets(Base):
     __tablename__ = 'planets'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     name = Column(String(256))
     diameter = Column(Integer)
     rotation_period = Column(Integer, nullable=False)
@@ -48,9 +49,8 @@ class Characters(Base):
     __tablename__ = 'characters'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(256))
-    name = Column(String(256))
+    id = Column(Integer, primary_key=True, unique=True)
+    name = Column(String(256))      
     birth_year = Column(Integer)
     eye_color = Column(String(256), nullable=False)
     gender = Column(String(256), nullable=False)
